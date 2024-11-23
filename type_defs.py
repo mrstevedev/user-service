@@ -1,4 +1,3 @@
-    
 import strawberry
 
 @strawberry.type
@@ -22,3 +21,11 @@ class UpdateUserInput:
 class UserLoginInput:
     email: str
     password: str
+
+@strawberry.type
+class Message:
+    message: str
+
+@strawberry.type
+class UserSignin:
+    access_token: str

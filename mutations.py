@@ -1,4 +1,5 @@
 import strawberry
+from datetime import timedelta
 from modules.hash import hashPassword
 from modules.decode import decodePassword
 from modules.logger import logger
@@ -9,7 +10,10 @@ from constants.constants import (
     ERROR_USER_NOT_EXISTS, 
     ERROR_INVALID_PASSWORD
 )
-from type_defs import UpdateUserInput, UserLoginInput, User
+
+from flask_jwt_extended import create_access_token, create_refresh_token
+
+from type_defs import UpdateUserInput, UserLoginInput, User, UserSignin
 
 @strawberry.type
 class Mutation: 
@@ -21,7 +25,6 @@ class Mutation:
         logger.info("Creating user with first_name: %s, last_name: %s, username: %s, email: %s, password: %s", first_name, last_name, username, email, password)
         user = UserModel(first_name=first_name, last_name=last_name, username=username, email=email, password=hashPassword(password))
         check_user = UserModel.query.filter_by(email=email).first()
-        print(check_user)
         
         if check_user:
             raise Exception(ERROR_USER_EXISTS)
@@ -35,7 +38,7 @@ class Mutation:
     User Login
     """
     @strawberry.mutation
-    def signin_user(self, input: UserLoginInput) -> User:
+    def login_user(self, input: UserLoginInput, info: strawberry.Info) -> UserSignin:
         logger.info("Signing in user with email: %s", input.email)
         user = UserModel.query.filter_by(email=input.email).first()
 
@@ -45,7 +48,35 @@ class Mutation:
         if not decodePassword(user.password, input.password):
             raise Exception(ERROR_INVALID_PASSWORD)
         
-        return user
+        access_payload = {
+            "email": user.email,
+            "password": user.password
+        }
+        
+        refresh_payload = {
+            "email": user.email,
+            "password": user.password
+        }
+     
+        access_token = create_access_token(
+            identity={"email": user.email}, 
+            additional_claims=access_payload, 
+            expires_delta=timedelta(minutes=15))
+        
+        refresh_token = create_refresh_token(
+            identity={"email": user.email}, 
+            additional_claims=refresh_payload, 
+            expires_delta=timedelta(days=30))
+        
+        response = UserSignin(access_token=access_token)
+
+        info.context["response"].set_cookie(
+            key="refresh_token", 
+            value=refresh_token,
+            httponly=True
+        )
+        
+        return response
 
     """
     Delete User
