@@ -5,7 +5,7 @@ from modules.decode import decodePassword
 from modules.logger import logger
 from models.models import UserModel, db
 from queries import User
-from constants.constants import ERROR_USER_EXISTS, ERROR_USER_NOT_EXISTS, ERROR_INVALID_PASSWORD
+from constants.constants import ERROR_USER_EXISTS, ERROR_USER_NOT_EXISTS, ERROR_INVALID_PASSWORD, USER
 from modules.create import access_token
 from modules.refresh import refresh
 from flask_jwt_extended import jwt_required
@@ -20,7 +20,7 @@ class Mutation:
     @strawberry.mutation
     def register_user(self, first_name: str, last_name: str, username: str, email: str, password: str) -> User:
         logger.info("Creating user with first_name: %s, last_name: %s, username: %s, email: %s, password: %s", first_name, last_name, username, email, password)
-        user = UserModel(first_name=first_name, last_name=last_name, username=username, email=email, password=hashPassword(password))
+        user = UserModel(first_name=first_name, last_name=last_name, username=username, email=email, password=hashPassword(password), role=USER)
         check_user = UserModel.query.filter_by(email=email).first()
         
         if check_user:
