@@ -1,4 +1,5 @@
 import strawberry
+from constants.constants import USER
 
 @strawberry.type
 class User:
@@ -7,6 +8,7 @@ class User:
     username: str
     email: str
     password: str
+    role: str = USER
 
 @strawberry.input
 class UpdateUserInput:
