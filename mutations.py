@@ -76,3 +76,12 @@ class Mutation:
         
         return user
 
+    """
+    Create Event
+    """
+    @strawberry.mutation
+    @jwt_required()
+    def create_event(self, title: str, description: str, start_time: str, end_time: str, venue: str) -> Event:
+        logger.info(
+            "Creating event with title: %s, description: %s, start_time: %s, end_time: %s, venue: %s", 
+            title, description, start_time, end_time, venue)
