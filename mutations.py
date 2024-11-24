@@ -85,3 +85,26 @@ class Mutation:
         logger.info(
             "Creating event with title: %s, description: %s, start_time: %s, end_time: %s, venue: %s", 
             title, description, start_time, end_time, venue)
+        
+    """
+    Admin Update
+    """
+    @strawberry.mutation
+    @jwt_required()
+    @admin_user()
+    def admin_update_user(self, input: UpdateUserInput) -> User:
+        logger.info("Admin updating user with id: %s", input.id)
+        user = UserModel.query.get(input.id)
+
+        if not user or user.id != input.id:
+            raise Exception(ERROR_USER_NOT_EXISTS)
+        
+        user.first_name = input.first_name
+        user.last_name = input.last_name
+        user.username = input.username
+        user.password = hashPassword(input.password)
+        user.email = input.email
+        user.role = input.role
+        db.session.commit()
+        
+        return user
