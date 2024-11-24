@@ -5,15 +5,12 @@ from modules.decode import decodePassword
 from modules.logger import logger
 from models.models import UserModel, db
 from queries import User
-from constants.constants import (
-    ERROR_USER_EXISTS, 
-    ERROR_USER_NOT_EXISTS, 
-    ERROR_INVALID_PASSWORD
-)
-
-from flask_jwt_extended import create_access_token, create_refresh_token
-
-from type_defs import UpdateUserInput, UserLoginInput, User, UserSignin
+from constants.constants import ERROR_USER_EXISTS, ERROR_USER_NOT_EXISTS, ERROR_INVALID_PASSWORD
+from modules.create import access_token
+from modules.refresh import refresh
+from flask_jwt_extended import jwt_required
+from type_defs import UpdateUserInput, UserLoginInput, User, UserSignin, Event
+from decorators.admin_user import admin_user
 
 @strawberry.type
 class Mutation: 
@@ -48,27 +45,12 @@ class Mutation:
         if not decodePassword(user.password, input.password):
             raise Exception(ERROR_INVALID_PASSWORD)
         
-        access_payload = {
-            "email": user.email,
-            "password": user.password
-        }
+        access_payload = {"email": user.email,"password": user.password}
+        refresh_payload = {"email": user.email,"password": user.password}
         
-        refresh_payload = {
-            "email": user.email,
-            "password": user.password
-        }
-     
-        access_token = create_access_token(
-            identity={"email": user.email}, 
-            additional_claims=access_payload, 
-            expires_delta=timedelta(minutes=15))
-        
-        refresh_token = create_refresh_token(
-            identity={"email": user.email}, 
-            additional_claims=refresh_payload, 
-            expires_delta=timedelta(days=30))
-        
-        response = UserSignin(access_token=access_token)
+        refresh_token = refresh(user.email, refresh_payload, timedelta(days=30))
+    
+        response = UserSignin(access_token=access_token(user.email, access_payload, timedelta(minutes=15)))
 
         info.context["response"].set_cookie(
             key="refresh_token", 
@@ -113,4 +95,3 @@ class Mutation:
         db.session.commit()
         
         return user
-    
