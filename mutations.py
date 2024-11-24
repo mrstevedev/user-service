@@ -5,7 +5,12 @@ from modules.decode import decodePassword
 from modules.logger import logger
 from models.models import UserModel, db
 from queries import User
-from constants.constants import ERROR_USER_EXISTS, ERROR_USER_NOT_EXISTS, ERROR_INVALID_PASSWORD, USER
+from constants.constants import (
+     ERROR_USER_EXISTS, 
+     ERROR_USER_NOT_EXISTS, 
+     ERROR_INVALID_PASSWORD, 
+     USER, MAX_TOKEN_DAYS, MAX_TOKEN_SECONDS
+)
 from modules.create import access_token
 from modules.refresh import refresh
 from flask_jwt_extended import jwt_required
@@ -48,9 +53,9 @@ class Mutation:
         access_payload = {"email": user.email,"password": user.password}
         refresh_payload = {"email": user.email,"password": user.password}
         
-        refresh_token = refresh(user.email, refresh_payload, timedelta(days=30))
+        refresh_token = refresh(user.email, refresh_payload, timedelta(days=MAX_TOKEN_DAYS))
     
-        response = UserSignin(access_token=access_token(user.email, access_payload, timedelta(minutes=15)))
+        response = UserSignin(access_token=access_token(user.email, access_payload, timedelta(minutes=MAX_TOKEN_SECONDS)))
 
         info.context["response"].set_cookie(
             key="refresh_token", 
