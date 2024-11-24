@@ -29,3 +29,11 @@ class Message:
 @strawberry.type
 class UserSignin:
     access_token: str
+
+@strawberry.type
+class Event:
+    title: str
+    description: str
+    start_time: str
+    end_time: str
+    venue: str
