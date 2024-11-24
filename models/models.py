@@ -11,3 +11,4 @@ class UserModel(db.Model):
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
+    role = db.Column(db.String(50), nullable=False)
