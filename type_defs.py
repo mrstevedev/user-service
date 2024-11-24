@@ -16,6 +16,7 @@ class UpdateUserInput:
     username: str
     email: str
     password: str
+    role: str
 
 @strawberry.input
 class UserLoginInput:
