@@ -180,19 +180,3 @@ class Mutation:
         except:
             raise Exception(ERROR_UPLOADING_FILE)
         
-    """
-    Download file using presigned download URL
-    """
-    @strawberry.mutation
-    @jwt_required()
-    def download_file(self, presigned_url: str, file: str) -> str:
-        logger.info("Downloading file from S3")
-
-        if not presigned_url:
-            raise Exception(ERROR_NO_PRESIGNED_DOWNLOAD_URL)
-        
-        try:
-            download(presigned_url, file)
-            return MESSAGE_DOWNLOAD_SUCCESS
-        except:
-            raise Exception(ERROR_DOWNLOADING_FILE)
