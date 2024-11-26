@@ -40,3 +40,12 @@ class Event:
     start_time: str
     end_time: str
     venue: str
+
+@strawberry.input
+class AWSS3Input:
+    key: str
+
+@strawberry.input
+class AWSS3UploadInput:
+    presigned_url: str
+    file_path: str
