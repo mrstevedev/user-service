@@ -11,3 +11,6 @@ MAX_TOKEN_SECONDS = 15
 AWS_SERVICE = "s3"
 ERROR_GENERATING_UPLOAD_URL = "Error generating presigned upload URL"
 ERROR_GENERATING_DOWNLOAD_URL = "Error generating presigned upload URL"
+ERROR_OBJECT_NOT_EXISTS = "Object does not exist"
+ERROR_UPLOADING_FILE = "Error uploading file to S3"
+ERROR_DOWNLOADING_FILE = "Error downloading file from S3"
