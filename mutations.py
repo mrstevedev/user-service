@@ -13,18 +13,14 @@ from constants.constants import (
      ERROR_UPLOADING_FILE,
      ERROR_USER_NOT_EXISTS, 
      ERROR_INVALID_PASSWORD,
-     ERROR_DOWNLOADING_FILE,
      ERROR_NO_URL_AND_FILE_PATH,
      ERROR_GENERATING_UPLOAD_URL,
      ERROR_GENERATING_DOWNLOAD_URL,
      MESSAGE_UPLOAD_SUCCESS,
-     MESSAGE_DOWNLOAD_SUCCESS,
-     ERROR_NO_PRESIGNED_DOWNLOAD_URL,
 )
 from modules.refresh import refresh
 from modules.upload import upload_file
 from modules.create import access_token
-from modules.download import download
 from modules.generate_upload_url import generate_presigned_upload_url
 from modules.generate_download_url import generate_presigned_download_url
 
