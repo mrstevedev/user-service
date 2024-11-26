@@ -11,11 +11,13 @@ from constants.constants import (
      ERROR_USER_NOT_EXISTS, 
      ERROR_INVALID_PASSWORD,
      ERROR_GENERATING_UPLOAD_URL,
+     ERROR_GENERATING_DOWNLOAD_URL,
      USER, MAX_TOKEN_DAYS, MAX_TOKEN_SECONDS
 )
 from modules.create import access_token
 from modules.refresh import refresh
 from modules.generate_upload_url import generate_presigned_upload_url
+from modules.generate_download_url import generate_presigned_download_url
 
 from flask_jwt_extended import jwt_required
 from type_defs import UpdateUserInput, UserLoginInput, User, UserSignin, Event, AWSS3Input
@@ -131,5 +133,21 @@ class Mutation:
         
         if not response:
             raise Exception(ERROR_GENERATING_UPLOAD_URL)
+
+        return response
+    
+        """
+    Generate presigned download URL
+    """
+    @strawberry.mutation
+    @jwt_required()
+    def generate_presigned_s3_download_url(self, input: AWSS3Input) -> str:
+        logger.info("Generating presigned download URL")
+
+        response = generate_presigned_download_url(
+            os.environ.get("AWS_S3_BUCKET_NAME"), input.key)
+        
+        if not response:
+            raise Exception(ERROR_GENERATING_DOWNLOAD_URL)
 
         return response
