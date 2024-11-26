@@ -9,3 +9,5 @@ ERROR_NOT_AUTHORIZED="You are not authorized to perform this action"
 MAX_TOKEN_DAYS = 30
 MAX_TOKEN_SECONDS = 15
 AWS_SERVICE = "s3"
+ERROR_GENERATING_UPLOAD_URL = "Error generating presigned upload URL"
+ERROR_GENERATING_DOWNLOAD_URL = "Error generating presigned upload URL"
