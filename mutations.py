@@ -7,20 +7,26 @@ from modules.logger import logger
 from models.models import UserModel, db
 from queries import User
 from constants.constants import (
+     MAX_TOKEN_SECONDS,
      ERROR_USER_EXISTS, 
+     USER, MAX_TOKEN_DAYS, 
+     ERROR_UPLOADING_FILE,
      ERROR_USER_NOT_EXISTS, 
      ERROR_INVALID_PASSWORD,
+     ERROR_NO_URL_AND_FILE_PATH,
      ERROR_GENERATING_UPLOAD_URL,
      ERROR_GENERATING_DOWNLOAD_URL,
-     USER, MAX_TOKEN_DAYS, MAX_TOKEN_SECONDS
+     MESSAGE_UPLOAD_SUCCESS,
 )
-from modules.create import access_token
 from modules.refresh import refresh
+from modules.upload import upload_file
+from modules.create import access_token
 from modules.generate_upload_url import generate_presigned_upload_url
 from modules.generate_download_url import generate_presigned_download_url
 
 from flask_jwt_extended import jwt_required
-from type_defs import UpdateUserInput, UserLoginInput, User, UserSignin, Event, AWSS3Input
+from type_defs import (
+    UpdateUserInput, UserLoginInput, User, UserSignin, Event, AWSS3Input, AWSS3UploadInput)
 from decorators.admin_user import admin_user
 
 @strawberry.type
@@ -136,7 +142,7 @@ class Mutation:
 
         return response
     
-        """
+    """
     Generate presigned download URL
     """
     @strawberry.mutation
@@ -151,3 +157,21 @@ class Mutation:
             raise Exception(ERROR_GENERATING_DOWNLOAD_URL)
 
         return response
+    
+    """
+    Upload file using presigned upload URL
+    """
+    @strawberry.mutation
+    @jwt_required()
+    def upload_file(self, input: AWSS3UploadInput) -> str:
+        logger.info("Uploading file to S3")
+
+        if not input.presigned_url and not input.file_path:
+            raise Exception(ERROR_NO_URL_AND_FILE_PATH)
+        
+        try: 
+            upload_file(input.presigned_url, input.file_path)
+            
+            return MESSAGE_UPLOAD_SUCCESS
+        except:
+            raise Exception(ERROR_UPLOADING_FILE)
