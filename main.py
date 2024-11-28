@@ -3,7 +3,7 @@ from flask import Flask
 from modules.logger import logger
 from strawberry.flask.views import GraphQLView
 from constants.constants import SQLALCHEMY_DATABASE_URL, SUPER_SECRET_KEY
-from models.models import db
+from models.User import db
 from queries import Query
 from mutations import Mutation
 
