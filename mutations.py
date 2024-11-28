@@ -4,7 +4,7 @@ from datetime import timedelta
 from modules.hash import hashPassword
 from modules.decode import decodePassword
 from modules.logger import logger
-from models.models import UserModel, db
+from models.User import UserModel, db
 from queries import User
 from constants.constants import (
      MAX_TOKEN_SECONDS,
@@ -175,4 +175,3 @@ class Mutation:
             return MESSAGE_UPLOAD_SUCCESS
         except:
             raise Exception(ERROR_UPLOADING_FILE)
-        
