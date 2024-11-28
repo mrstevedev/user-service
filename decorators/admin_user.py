@@ -1,6 +1,6 @@
 from functools import wraps
 from flask_jwt_extended import get_jwt_identity
-from models.User import UserModel
+from models.models import UserModel
 from constants.constants import ERROR_NOT_AUTHORIZED, ADMINISTRATOR
 
 def admin_user():
