@@ -1,4 +1,4 @@
-USER = "user"
+USER = "User"
 ADMINISTRATOR = "Administrator"
 SQLALCHEMY_DATABASE_URL = "sqlite:///database.db"
 ERROR_USER_EXISTS = "User with this email already exists"
