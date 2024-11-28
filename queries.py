@@ -2,7 +2,7 @@ import typing
 import strawberry
 from datetime import timedelta
 from modules.logger import logger
-from models.User import UserModel, db
+from models.models import UserModel, db
 from type_defs import User, Message
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from modules.create import access_token
