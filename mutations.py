@@ -174,7 +174,7 @@ class Mutation:
     """
     @strawberry.mutation
     @jwt_required()
-    def upload_file(self, input: AWSS3UploadInput) -> str:
+    def upload_file(self, input: AWSS3UploadInput) -> UploadSuccess:
         logger.info("Uploading file to S3")
 
         if not input.presigned_url and not input.file_path:
@@ -183,6 +183,8 @@ class Mutation:
         try: 
             upload_file(input.presigned_url, input.file_path)
             
-            return MESSAGE_UPLOAD_SUCCESS
+            response = UploadSuccess(message=MESSAGE_UPLOAD_SUCCESS)
+
+            return response
         except:
             raise Exception(ERROR_UPLOADING_FILE)
