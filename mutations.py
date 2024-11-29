@@ -6,6 +6,7 @@ from modules.decode import decodePassword
 from modules.logger import logger
 from models.models import UserModel, db
 from constants.constants import (
+     ADMIN_EMAIL,
      ADMINISTRATOR,
      MAX_TOKEN_SECONDS,
      ERROR_USER_EXISTS, 
@@ -38,7 +39,8 @@ class Mutation:
     @strawberry.mutation
     def register_user(self, first_name: str, last_name: str, username: str, email: str, password: str) -> RegisterSuccess:
         logger.info("Creating user with first_name: %s, last_name: %s, username: %s, email: %s, password: %s", first_name, last_name, username, email, password)
-        user = UserModel(first_name=first_name, last_name=last_name, username=username, email=email, password=hashPassword(password), role=USER)
+        user = UserModel(first_name=first_name, last_name=last_name, username=username, email=email, password=hashPassword(password), 
+            role=ADMINISTRATOR if email == ADMIN_EMAIL else USER)
         check_user = UserModel.query.filter_by(email=email).first()
         
         if check_user:
