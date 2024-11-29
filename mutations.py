@@ -117,7 +117,7 @@ class Mutation:
     """
     @strawberry.mutation
     @jwt_required()
-    @admin_user()
+    @is_admin()
     def admin_update_user(self, input: UpdateUserInput) -> User:
         logger.info("Admin updating user with id: %s", input.id)
         user = UserModel.query.get(input.id)
