@@ -4,8 +4,7 @@ from datetime import timedelta
 from modules.hash import hashPassword
 from modules.decode import decodePassword
 from modules.logger import logger
-from models.User import UserModel, db
-from queries import User
+from models.models import UserModel, db
 from constants.constants import (
      MAX_TOKEN_SECONDS,
      ERROR_USER_EXISTS, 
