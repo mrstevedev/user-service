@@ -3,6 +3,7 @@ from constants.constants import USER
 
 @strawberry.type
 class User:
+    id: int
     first_name: str
     last_name: str
     username: str
