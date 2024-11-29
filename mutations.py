@@ -87,6 +87,7 @@ class Mutation:
     """        
     @strawberry.mutation
     @jwt_required()
+    @is_admin()
     def delete_user(self, id: int) -> User:
         logger.info("Deleting user with id: %s", id)
         user = UserModel.query.get(id)
