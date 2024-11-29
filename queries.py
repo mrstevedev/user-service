@@ -9,7 +9,8 @@ from modules.create import access_token
 
 def users():
     logger.info("Getting users")
-    return db.session.query(UserModel).all()
+    return db.session.query(
+        UserModel.id, UserModel.first_name, UserModel.last_name, UserModel.username, UserModel.email, UserModel.role).all()
 
 def logout(info: strawberry.Info) -> Message:
     logger.info("Logging out user")
