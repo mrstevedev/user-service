@@ -27,7 +27,7 @@ from modules.generate_download_url import generate_presigned_download_url
 
 from flask_jwt_extended import jwt_required
 from type_defs import (
-    UpdateUserInput, UserLoginInput, UserSignin, Event, AWSS3Input, AWSS3UploadInput, 
+    UpdateUserInput, UserLoginInput, UserSignin, Event, EventInput, AWSS3Input, AWSS3UploadInput, 
     DeleteSuccess, UpdateSuccess, RegisterSuccess, UploadSuccess)
 from decorators.is_admin import is_admin
 
@@ -107,10 +107,10 @@ class Mutation:
     """
     @strawberry.mutation
     @jwt_required()
-    def create_event(self, title: str, description: str, start_time: str, end_time: str, venue: str) -> Event:
+    def create_event(self, input: EventInput) -> Event:
         logger.info(
             "Creating event with title: %s, description: %s, start_time: %s, end_time: %s, venue: %s", 
-            title, description, start_time, end_time, venue)
+            input.title, input.description, input.start_time, input.end_time, input.venue)
         
     """
     Admin Update
