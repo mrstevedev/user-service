@@ -36,7 +36,7 @@ class Mutation:
     User Registration
     """
     @strawberry.mutation
-    def register_user(self, first_name: str, last_name: str, username: str, email: str, password: str) -> User:
+    def register_user(self, first_name: str, last_name: str, username: str, email: str, password: str) -> RegisterSuccess:
         logger.info("Creating user with first_name: %s, last_name: %s, username: %s, email: %s, password: %s", first_name, last_name, username, email, password)
         user = UserModel(first_name=first_name, last_name=last_name, username=username, email=email, password=hashPassword(password), role=USER)
         check_user = UserModel.query.filter_by(email=email).first()
@@ -46,8 +46,10 @@ class Mutation:
         
         db.session.add(user)
         db.session.commit()
+
+        response = RegisterSuccess(message="User created successfully")
         
-        return user
+        return response
     
     """
     User Login
