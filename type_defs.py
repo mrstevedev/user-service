@@ -66,3 +66,11 @@ class RegisterSuccess:
 @strawberry.type
 class UploadSuccess:    
     message: str
+
+@strawberry.input
+class EventInput: 
+    title: str 
+    description: str 
+    start_time: str 
+    end_time: str 
+    venue: str
