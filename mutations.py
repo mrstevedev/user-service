@@ -118,7 +118,7 @@ class Mutation:
     @strawberry.mutation
     @jwt_required()
     @is_admin()
-    def admin_update_user(self, input: UpdateUserInput) -> User:
+    def admin_update_user(self, input: UpdateUserInput) -> UpdateSuccess:
         logger.info("Admin updating user with id: %s", input.id)
         user = UserModel.query.get(input.id)
 
@@ -132,8 +132,10 @@ class Mutation:
         user.email = input.email
         user.role = input.role
         db.session.commit()
+
+        response = UpdateSuccess(message="Successfully updated user")
         
-        return user
+        return response
     
     """
     Generate presigned upload URL
