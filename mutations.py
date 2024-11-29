@@ -6,6 +6,7 @@ from modules.decode import decodePassword
 from modules.logger import logger
 from models.models import UserModel, db
 from constants.constants import (
+     ADMINISTRATOR,
      MAX_TOKEN_SECONDS,
      ERROR_USER_EXISTS, 
      USER, MAX_TOKEN_DAYS, 
