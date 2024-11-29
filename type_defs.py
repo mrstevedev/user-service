@@ -50,3 +50,19 @@ class AWSS3Input:
 class AWSS3UploadInput:
     presigned_url: str
     file_path: str
+
+@strawberry.type
+class DeleteSuccess:
+    message: str
+
+@strawberry.type
+class UpdateSuccess:
+    message: str
+
+@strawberry.type
+class RegisterSuccess:    
+    message: str
+
+@strawberry.type
+class UploadSuccess:    
+    message: str
