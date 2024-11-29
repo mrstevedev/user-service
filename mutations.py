@@ -86,6 +86,7 @@ class Mutation:
     Delete User
     """        
     @strawberry.mutation
+    @jwt_required()
     def delete_user(self, id: int) -> User:
         logger.info("Deleting user with id: %s", id)
         user = UserModel.query.get(id)
