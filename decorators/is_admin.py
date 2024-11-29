@@ -3,7 +3,7 @@ from flask_jwt_extended import get_jwt_identity
 from models.models import UserModel
 from constants.constants import ERROR_NOT_AUTHORIZED, ADMINISTRATOR
 
-def admin_user():
+def is_admin():
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
