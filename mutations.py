@@ -26,7 +26,7 @@ from modules.generate_download_url import generate_presigned_download_url
 
 from flask_jwt_extended import jwt_required
 from type_defs import (
-    UpdateUserInput, UserLoginInput, User, UserSignin, Event, AWSS3Input, AWSS3UploadInput)
+    UpdateUserInput, UserLoginInput, UserSignin, Event, AWSS3Input, AWSS3UploadInput)
 from decorators.admin_user import admin_user
 
 @strawberry.type
