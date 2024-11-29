@@ -28,7 +28,7 @@ from flask_jwt_extended import jwt_required
 from type_defs import (
     UpdateUserInput, UserLoginInput, UserSignin, Event, AWSS3Input, AWSS3UploadInput, 
     DeleteSuccess, UpdateSuccess, RegisterSuccess, UploadSuccess)
-from decorators.admin_user import admin_user
+from decorators.is_admin import is_admin
 
 @strawberry.type
 class Mutation: 
