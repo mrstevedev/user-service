@@ -88,7 +88,7 @@ class Mutation:
     @strawberry.mutation
     @jwt_required()
     @is_admin()
-    def delete_user(self, id: int) -> User:
+    def delete_user(self, id: int) -> DeleteSuccess:
         logger.info("Deleting user with id: %s", id)
         user = UserModel.query.get(id)
 
@@ -97,8 +97,10 @@ class Mutation:
         
         db.session.delete(user)
         db.session.commit()
+
+        response = DeleteSuccess(message="Successfully deleted user")
         
-        return user
+        return response
 
     """
     Create Event
