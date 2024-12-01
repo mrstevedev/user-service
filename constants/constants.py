@@ -1,7 +1,14 @@
+import os
+
+username = os.environ.get("POSTGRES_USER")
+password = os.environ.get("POSTGRES_PASSWORD")
+host = os.environ.get("POSTGRES_HOST")
+database = os.environ.get("POSTGRES_DB")
+
 USER = "User"
 ADMINISTRATOR = "Administrator"
 ADMIN_EMAIL = "leanne@gmail.com"
-SQLALCHEMY_DATABASE_URL = "sqlite:///database.db"
+SQLALCHEMY_DATABASE_URL = f'postgresql://{username}:{password}@{host}/{database}'
 ERROR_USER_EXISTS = "User with this email already exists"
 ERROR_USER_NOT_EXISTS = "User does not exists"
 ERROR_INVALID_PASSWORD = "Invalid password"
