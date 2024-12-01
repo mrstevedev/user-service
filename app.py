@@ -6,12 +6,14 @@ from constants.constants import SQLALCHEMY_DATABASE_URL, SUPER_SECRET_KEY
 from models.models import db
 from queries import Query
 from mutations import Mutation
+from flask_migrate import Migrate
 
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URL
 app.config["JWT_SECRET_KEY"] = SUPER_SECRET_KEY
+migrate = Migrate(app, db)
 
 jwt = JWTManager(app)
 
