@@ -1,17 +1,17 @@
 import os
 
+host = os.environ.get("POSTGRES_HOST")
 username = os.environ.get("POSTGRES_USER")
 password = os.environ.get("POSTGRES_PASSWORD")
-host = os.environ.get("POSTGRES_HOST")
 database = os.environ.get("POSTGRES_DB")
 
 USER = "User"
 ADMINISTRATOR = "Administrator"
 ADMIN_EMAIL = "leanne@gmail.com"
-SQLALCHEMY_DATABASE_URL = f'postgresql://{username}:{password}@{host}/{database}'
 ERROR_USER_EXISTS = "User with this email already exists"
 ERROR_USER_NOT_EXISTS = "User does not exists"
 ERROR_INVALID_PASSWORD = "Invalid password"
+SQLALCHEMY_DATABASE_URL = f'postgresql://{username}:{password}@{host}:5432/{database}'
 SUPER_SECRET_KEY = "20149e340d630235109558b3548af106d928fcefcb85f665440fb12f9fa716c0909d6b2025857ef690e73cf4330a5076a22ef7b6291e15357d4e5358090610e1"
 ERROR_NOT_AUTHORIZED="You are not authorized to perform this action"
 MAX_TOKEN_DAYS = 30
