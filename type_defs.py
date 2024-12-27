@@ -51,6 +51,10 @@ class AWSS3UploadInput:
     presigned_url: str
     file_path: str
 
+@strawberry.input
+class AWSS3DownloadInput:
+    presigned_url: str
+
 @strawberry.type
 class DeleteSuccess:
     message: str
@@ -65,6 +69,10 @@ class RegisterSuccess:
 
 @strawberry.type
 class UploadSuccess:    
+    message: str
+
+@strawberry.type
+class DownloadSuccess:
     message: str
 
 @strawberry.input
