@@ -34,5 +34,5 @@ def refresh_token() -> str:
 class Query:
     users: typing.List[User] = strawberry.field(resolver=users)
     logout_user: Message = strawberry.field(resolver=logout)
-    refresh_token: str = strawberry.field(resolver=refresh_token)
+    access_token: str = strawberry.field(resolver=refresh_token)
     
