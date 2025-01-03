@@ -12,23 +12,26 @@ from constants.constants import (
      ERROR_USER_EXISTS, 
      USER, MAX_TOKEN_DAYS, 
      ERROR_UPLOADING_FILE,
+     ERROR_DOWNLOADING_FILE,
      ERROR_USER_NOT_EXISTS, 
      ERROR_INVALID_PASSWORD,
      ERROR_NO_URL_AND_FILE_PATH,
      ERROR_GENERATING_UPLOAD_URL,
      ERROR_GENERATING_DOWNLOAD_URL,
+     ERROR_NO_PRESIGNED_DOWNLOAD_URL,
      MESSAGE_UPLOAD_SUCCESS,
 )
 from modules.refresh import refresh
 from modules.upload import upload_file
+from modules.download import download_file
 from modules.create import access_token
 from modules.generate_upload_url import generate_presigned_upload_url
 from modules.generate_download_url import generate_presigned_download_url
 
 from flask_jwt_extended import jwt_required
 from type_defs import (
-    UpdateUserInput, UserLoginInput, UserSignin, Event, EventInput, AWSS3Input, AWSS3UploadInput, 
-    DeleteSuccess, UpdateSuccess, RegisterSuccess, UploadSuccess)
+    UpdateUserInput, UserLoginInput, UserSignin, Event, EventInput, AWSS3Input, AWSS3UploadInput, AWSS3DownloadInput,
+    DeleteSuccess, UpdateSuccess, RegisterSuccess, UploadSuccess, DownloadSuccess)
 from decorators.is_admin import is_admin
 
 @strawberry.type
@@ -188,3 +191,26 @@ class Mutation:
             return response
         except:
             raise Exception(ERROR_UPLOADING_FILE)
+        
+    """
+    Download resolver
+    """
+    @strawberry.mutation
+    @jwt_required()
+    def download_file(input: AWSS3DownloadInput) -> str:
+        logger.info("Downloading file")
+
+        if not input.presigned_url:
+            raise Exception(ERROR_NO_PRESIGNED_DOWNLOAD_URL)
+
+        try:
+            response = download_file(input.presigned_url)
+
+            print(response)
+
+            return response
+        except:
+            raise Exception(ERROR_DOWNLOADING_FILE)
+
+
+# AWS ECS Load BalancerReference: https://www.youtube.com/watch?v=CQrtouRfcT8
