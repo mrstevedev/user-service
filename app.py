@@ -14,9 +14,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URL
 app.config["JWT_SECRET_KEY"] = SUPER_SECRET_KEY
 migrate = Migrate(app, db)
-
 jwt = JWTManager(app)
-
 db.init_app(app)
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)
